@@ -299,7 +299,7 @@ public class FileExplorer : IDynamicUI
                     "mp3" or "wav" or "obb" => $":musical_notes: {item}",
                     "mov" or "mp4" or "mpeg" or "avg" or "mkv" => $":videocassette: {item}",
 
-                    _ => $":memo:🎁 {item}"
+                    _ => $":memo: {item}"
                 };
             }
 

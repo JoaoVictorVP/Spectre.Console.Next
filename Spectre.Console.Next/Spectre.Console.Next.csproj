@@ -11,7 +11,7 @@
     <RepositoryUrl>https://github.com/JoaoVictorVP/Spectre.Console.Next</RepositoryUrl>
     <PackageIcon>Spectre.Console.Next.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
