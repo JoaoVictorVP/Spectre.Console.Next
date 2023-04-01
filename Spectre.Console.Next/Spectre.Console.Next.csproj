@@ -13,6 +13,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Version>0.1.1</Version>
     <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>Just fixing a emoji I appended in files for testing</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
