@@ -13,7 +13,7 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <Version>0.1.3</Version>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>Just fixing a emoji I appended in files for testing</PackageReleaseNotes>
+    <PackageReleaseNotes>Adding support for different file systems in FileExplorer through the new FileSystemLayer.</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
