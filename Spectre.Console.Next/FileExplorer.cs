@@ -15,19 +15,22 @@ public class FileExplorer : IDynamicUI
 {
     private readonly string baseDirectory;
     private readonly int showRange;
+    private readonly FileSystemLayer fs;
     private string currentDirectory = "";
     private IEnumerable<string> items = Enumerable.Empty<string>();
     private string selected = "";
     private readonly TextBox search = new TextBox(placeholder: "Press F to search");
     bool isDirty = true;
 
-    public static async Task<IEnumerable<string>> Show(string baseDirectory, int showRange = 10)
-        => await new FileExplorer(baseDirectory, showRange).Show();
+    public static async Task<IEnumerable<string>> Show(string baseDirectory, int showRange = 10, FileSystemLayer? fsLayer = null)
+        => await new FileExplorer(baseDirectory, showRange, fsLayer).Show();
 
-    public FileExplorer(string baseDirectory, int showRange = 10)
+    public FileExplorer(string baseDirectory, int showRange = 10, FileSystemLayer? fsLayer = null)
     {
         this.baseDirectory = baseDirectory;
         this.showRange = showRange / 2;
+        fs = fsLayer ?? FileSystemLayer.OS;
+        
         Enter(baseDirectory);
     }
 
@@ -49,19 +52,19 @@ public class FileExplorer : IDynamicUI
     }
 
     public Task<IEnumerable<string>> Show() => Show(AnsiConsole.Console);
-
+    
     void MarkAsDirty() => isDirty = true;
 
     IEnumerable<string> BuildItems(string directory)
     {
-        return Directory.EnumerateDirectories(directory)
-            .Concat(Directory.EnumerateFiles(directory))
+        return fs.EnumerateDirectories((directory, "", false))
+            .Concat(fs.EnumerateFiles((directory, "", false)))
             .Select(p => p.Contains('\\') ? p.Replace('\\', '/') : p);
     }
 
     void Enter(string directory)
     {
-        if (Directory.Exists(directory) is false
+        if (fs.DirectoryExists(directory) is false
             || directory == currentDirectory
             || directory.Contains(baseDirectory) is false)
             return;
@@ -278,15 +281,15 @@ public class FileExplorer : IDynamicUI
             {
                 if (simpleGraphics)
                 {
-                    if (Directory.Exists(path))
+                    if (fs.DirectoryExists(path))
                         return $"D - {item}";
-                    else if (File.Exists(path))
+                    else if (fs.FileExists(path))
                         return $"F - {item}";
                     else
                         return item;
                 }
 
-                if (Directory.Exists(path))
+                if (fs.DirectoryExists(path))
                     return $":file_folder: {item}";
                 var ext = Path.GetExtension(path.AsSpan());
 
@@ -385,4 +388,26 @@ public enum FileExplorerAction
     Select,
     Find,
     Finish
+}
+public class FileSystemLayer
+{
+    public static readonly FileSystemLayer OS
+        = new FileSystemLayer
+        {
+            EnumerateFiles = x => Directory.EnumerateFiles(x.path, x.searchPattern, x.recursive
+                ? SearchOption.AllDirectories
+                : SearchOption.TopDirectoryOnly),
+            EnumerateDirectories = x => Directory.EnumerateDirectories(x.path, x.searchPattern, x.recursive
+                ? SearchOption.AllDirectories
+                : SearchOption.TopDirectoryOnly),
+            FileExists = File.Exists,
+            DirectoryExists = Directory.Exists,
+            GetFullPath = Path.GetFullPath
+        };
+
+    public required Func<(string path, string searchPattern, bool recursive), IEnumerable<string>> EnumerateFiles { get; init; }
+    public required Func<(string path, string searchPattern, bool recursive), IEnumerable<string>> EnumerateDirectories { get; init; }
+    public required Func<string, bool> FileExists;
+    public required Func<string, bool> DirectoryExists;
+    public required Func<string, string> GetFullPath { get; init; }
 }
