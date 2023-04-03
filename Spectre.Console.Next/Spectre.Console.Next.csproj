@@ -11,9 +11,9 @@
     <RepositoryUrl>https://github.com/JoaoVictorVP/Spectre.Console.Next</RepositoryUrl>
     <PackageIcon>Spectre.Console.Next.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>0.1.3</Version>
+    <Version>0.1.5</Version>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>Adding support for different file systems in FileExplorer through the new FileSystemLayer.</PackageReleaseNotes>
+    <PackageReleaseNotes>Adding support for killing FileExplorer externally on-demand (for multi-purposal views).</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

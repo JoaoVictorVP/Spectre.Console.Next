@@ -139,8 +139,16 @@ public class FileExplorer : IDynamicUI
             MarkAsDirty();
     }
 
+    bool isKilled;
+    public void Kill()
+    {
+        isKilled = true;
+    }
+
     public async Task<IEnumerable<string>> Show(IAnsiConsole console)
     {
+        isKilled = false;
+        
         var results = new List<string>(32);
 
         bool searching = false;
@@ -150,7 +158,7 @@ public class FileExplorer : IDynamicUI
             .StartAsync(async ctx =>
             {
                 isDirty = true;
-                while (true)
+                while (true && isKilled is false)
                 {
                     if (searching)
                     {
