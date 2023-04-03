@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Spectre.Console.Next.Contracts;
 
 namespace Spectre.Console.Next;
 
@@ -19,17 +20,22 @@ public class FileExplorer : IDynamicUI
     private string currentDirectory = "";
     private IEnumerable<string> items = Enumerable.Empty<string>();
     private string selected = "";
-    private readonly TextBox search = new TextBox(placeholder: "Press F to search");
+    private readonly TextBox search;
+    private readonly IInputSource input;
     bool isDirty = true;
 
-    public static async Task<IEnumerable<string>> Show(string baseDirectory, int showRange = 10, FileSystemLayer? fsLayer = null)
-        => await new FileExplorer(baseDirectory, showRange, fsLayer).Show();
+    public static async Task<IEnumerable<string>> Show(IInputSource input, string baseDirectory, int showRange = 10, FileSystemLayer? fsLayer = null)
+        => await new FileExplorer(input, baseDirectory, showRange, fsLayer).Show();
 
-    public FileExplorer(string baseDirectory, int showRange = 10, FileSystemLayer? fsLayer = null)
+    public FileExplorer(IInputSource input, string baseDirectory, int showRange = 10, FileSystemLayer? fsLayer = null)
     {
         this.baseDirectory = baseDirectory;
         this.showRange = showRange / 2;
+        this.input = input;
+        
         fs = fsLayer ?? FileSystemLayer.OS;
+
+        search = new TextBox(input, placeholder: "Press F to search");
         
         Enter(baseDirectory);
     }
@@ -182,7 +188,7 @@ public class FileExplorer : IDynamicUI
                         continue;
                     }
 
-                    switch (await Update(console.Input))
+                    switch (await Update())
                     {
                         case FileExplorerAction.MoveUp:
                         {
@@ -236,7 +242,7 @@ public class FileExplorer : IDynamicUI
     }
 
     bool simpleGraphics = SysConsole.OutputEncoding.Equals(Encoding.UTF8) is false;
-    public async Task<FileExplorerAction> Update(IAnsiConsoleInput input, bool blocking = false)
+    public async Task<FileExplorerAction> Update(bool blocking = false)
     {
         FileExplorerAction SwitchSimpleGraphics()
         {
@@ -249,7 +255,7 @@ public class FileExplorer : IDynamicUI
             return FileExplorerAction.None;
 
         var press = blocking
-            ? await input.ReadKeyAsync(true, CancellationToken.None)
+            ? await input.ReadKeyAsync(true)
             : input.ReadKey(true);
         
         return press switch

@@ -10,5 +10,19 @@ var selected = await FileExplorer.Show("baseDirectory", showRange (defaults to 1
 ```
 To prevent bugs and other undesirable effects, you should use the async code as is, without running multiple live widgets at the same time (I'm not sure about the effects of this, but some buffer overlaps can occur).
 
+## Migrating
+The new version uses a new type called InputSource for handling inputs.
+You can use it almost the same way as before, but need to inject the input source.
+
+You can initialize the input source like this:
+```cs
+var input = new InputSource(AnsiConsole.Console.Input);
+input.Run();
+```
+And then inject it to the widgets (in this example, the file explorer):
+```cs
+var selected = await FileExplorer.Show(input, "baseDirectory", showRange (defaults to 10));
+```
+
 ## How to Contribute
 Write your widgets, test them manually and make some unit tests for them.

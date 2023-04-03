@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Spectre.Console.Next.Contracts;
 
 namespace Spectre.Console.Next;
 
@@ -14,6 +15,7 @@ public class DynamicPrompt : IDynamicUI
     string? previousText = null;
     string text = "";
     readonly string placeholder = "";
+    readonly IInputSource input;
 
     public string Text
     {
@@ -21,14 +23,15 @@ public class DynamicPrompt : IDynamicUI
         set => text = value;
     }
 
-    public DynamicPrompt(string text, string placeholder)
+    public DynamicPrompt(string text, string placeholder, IInputSource inputSource)
     {
         this.text = text;
         this.placeholder = placeholder;
+        this.input = inputSource;
     }
-    public DynamicPrompt()
+    public DynamicPrompt(IInputSource inputSource)
     {
-        
+        this.input = inputSource;
     }
 
     bool isRunning;
@@ -49,9 +52,9 @@ public class DynamicPrompt : IDynamicUI
 
         while (isRunning)
         {
-            if (SysConsole.KeyAvailable)
+            if (input.IsKeyAvailable())
             {
-                var press = SysConsole.ReadKey(true);
+                var press = input.ReadKey(true);
 
                 text = (press, text) switch
                 {

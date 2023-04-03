@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Spectre.Console.Next.Contracts;
 
 namespace Spectre.Console.Next;
 
@@ -13,6 +14,7 @@ public class TextBox : IDynamicUI
 {
     private readonly string title;
     private readonly DynamicPrompt prompt;
+    private readonly IInputSource input;
     private bool isDirty;
 
     void MarkAsDirty() => isDirty = true;
@@ -23,10 +25,11 @@ public class TextBox : IDynamicUI
         set => prompt.Text = value;
     }
 
-    public TextBox(string title = "", string text = "", string placeholder = "")
+    public TextBox(IInputSource input, string title = "", string text = "", string placeholder = "")
     {
         this.title = title;
-        prompt = new DynamicPrompt(text, placeholder);
+        prompt = new DynamicPrompt(text, placeholder, input);
+        this.input = input;
     }
 
     bool isShowing;

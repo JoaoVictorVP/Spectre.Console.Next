@@ -11,17 +11,13 @@
     <RepositoryUrl>https://github.com/JoaoVictorVP/Spectre.Console.Next</RepositoryUrl>
     <PackageIcon>Spectre.Console.Next.png</PackageIcon>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>0.1.5</Version>
+    <Version>0.2.0</Version>
     <RepositoryType>git</RepositoryType>
-    <PackageReleaseNotes>Adding support for killing FileExplorer externally on-demand (for multi-purposal views).</PackageReleaseNotes>
+    <PackageReleaseNotes>Adding support for a new input source system instead of the directly based on terminal (this should make input interaction between multiple controls at same time possible without blockings).</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
     <None Include="..\..\..\Users\diade\Downloads\Spectre.Console.Next.png">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
-    <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
