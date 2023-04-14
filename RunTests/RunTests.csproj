@@ -8,6 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Spectre.Console.Json" Version="0.46.1-preview.0.20" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Spectre.Console.Next.Markdown\Spectre.Console.Next.Markdown.csproj" />
     <ProjectReference Include="..\Spectre.Console.Next\Spectre.Console.Next.csproj" />
   </ItemGroup>
 

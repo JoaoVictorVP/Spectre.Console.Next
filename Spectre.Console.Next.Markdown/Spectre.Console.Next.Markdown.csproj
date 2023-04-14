@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageVersion>0.1.0</PackageVersion>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>Spectre.Console.Next Markdown</Title>
+    <Description>A extension fo Spectre.Console to also be able to display markdown in terminal</Description>
+    <PackageProjectUrl>https://github.com/JoaoVictorVP/Spectre.Console.Next</PackageProjectUrl>
+    <PackageIcon>Spectre.Console.Next.Markdown.png</PackageIcon>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>First Release of the Extension!</PackageReleaseNotes>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\Users\diade\Downloads\Spectre.Console.Next.Markdown.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nipah.Markdown" Version="0.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Spectre.Console.Next\Spectre.Console.Next.csproj" />
+  </ItemGroup>
+
+</Project>

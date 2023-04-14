@@ -1,11 +1,30 @@
 ﻿
+using Nipah.Markdown;
 using Spectre.Console;
 using Spectre.Console.Next;
+using Spectre.Console.Next.Markdown;
 
-var input = new InputSource(AnsiConsole.Console.Input);
+const string md = """
+    # This is a title
+    > And this is a citation
+    * We can type
+    * lists
+    * as well
 
-input.Run();
+    ## And this is a subtitle
 
-var selected = await FileExplorer.Show(input, "C:/dev", 10);
+    And this is just plain text
+    ---
+    With a separator in between.
+    """;
 
-AnsiConsole.WriteLine(string.Join(", ", selected));
+var mdParser = new MarkdownParser();
+
+var mdView = MarkdownView.From(md, mdParser);
+
+if (mdView is null)
+    return;
+
+AnsiConsole.Write(mdView);
+
+await AnsiConsole.Console.Input.ReadKeyAsync(true, default);
