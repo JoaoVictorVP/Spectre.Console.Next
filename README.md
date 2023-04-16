@@ -24,5 +24,9 @@ And then inject it to the widgets (in this example, the file explorer):
 var selected = await FileExplorer.Show(input, "baseDirectory", showRange (defaults to 10));
 ```
 
+## Showcase
+File System Explorer:
+![Spectre Console Next File System Explorer](https://user-images.githubusercontent.com/98046863/232319351-18e7eecc-2af9-486f-902a-d2781f222446.gif)
+
 ## How to Contribute
 Write your widgets, test them manually and make some unit tests for them.
